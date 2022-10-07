@@ -1,0 +1,14 @@
+* {
+    color: blue;
+    font-size: large;
+}
+
+header{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 40px;
+}
+
+div {
+    font-size: 1.5em;
+}
