@@ -7,10 +7,12 @@ var li3 = document.createElement("li");
 var li4 = document.createElement("li");
 var buttonEl = document.createElement("button")
 var containerEl = document.createElement("div");
+var initials = document.querySelector(".inputInitials")
 var scores = document.querySelector("#score")
 var timer = document.querySelector("#time")
 var timeLeft = 75;
 var answer = 0;
+
 
 startPage();
 
@@ -20,17 +22,20 @@ function startPage() {
     body.appendChild(containerEl)
     containerEl.appendChild(h1El)
     body.appendChild(buttonEl)
+    initials.remove();
+
     buttonEl.textContent= "Start Quiz"
     buttonEl.addEventListener("click", function(event) {
         buttonEl.remove();
-        question1();
         countdown();
+        question1();
+     
     })
 
     scores.addEventListener("click", function(event){
         scorePage();
     })
-}
+} 
 
 
 // set attributes 
@@ -43,6 +48,10 @@ li2.setAttribute("style", "font-size:20px; margin-left:20vw; margin-top:2px; mar
 li3.setAttribute("style", "font-size:20px; margin-left:20vw; margin-top:2px; margin-right:20vw; padding:5px; background-color: #e3e3e3")
 li4.setAttribute("style", "font-size:20px; margin-left:20vw; margin-top:2px; margin-right:20vw; padding:5px; background-color: #e3e3e3")
 buttonEl.setAttribute("style", "cursor:pointer; margin-left:45vw; border-radius:3px; margin-top:5vh")
+li1.setAttribute("class", "li1")
+li2.setAttribute("class", "li2")
+li3.setAttribute("class", "li3")
+li4.setAttribute("class", "li4")
 // incorrect answer color #233142
 
 
@@ -55,17 +64,27 @@ function countdown() {
             timer.textContent = "Time Left: " + timeLeft;
             // Decrement `timeLeft` by 1
             timeLeft--;
-          } else {
-            // Once `timeLeft` gets to 0, set `timerEl` to an empty string
-            timer.textContent = '';
-          }
+          } 
     }, 1000);
 }
 
 // add formating for score page and receive score
 function scorePage(){
-    h1El.textContent = "High scores"
     buttonEl.remove();
+    listEl.remove();
+    timer.remove();
+    h1El.textContent = "High scores"
+ 
+}
+
+function enterHighScore(){
+    listEl.remove();
+    console.log('timeLeft :>> ', timeLeft);
+    if (timeLeft < 0)
+    timeLeft = 0;
+    h1El.textContent = "Your score is " + timeLeft + "."
+
+    h1El.appendChild(initials);
 }
 
 function question1() {
@@ -83,38 +102,54 @@ function question1() {
     listEl.appendChild(li3);
     listEl.appendChild(li4);
 
-    li1.addEventListener("click", function() {
-        timeLeft = timeLeft;
-    
-    })
-    li2.addEventListener("click", function() {
-        timeLeft = timeLeft -15;
-    
-    })
-    li3.addEventListener("click", function() {
-        timeLeft = timeLeft -15;
-    })
-    li4.addEventListener("click", function() {
-        timeLeft = timeLeft -15;
-    })
- 
-    containerEl.addEventListener("click", function(){
+    listEl.addEventListener("click", function (event) {
+        var element = event.target;
+
+        if (element.matches("li1")){
+            return;
+        } else if (element.matches(".li2")){
+            timeLeft = timeLeft - 15;
+        }else if (element.matches(".li3")){
+            timeLeft = timeLeft - 15;
+        }else if (element.matches(".li4")){
+            timeLeft = timeLeft - 15;
+        }
         question2();
     })
 
-    if (timeLeft === 0)
-        scorePage();
+
+    // li1.addEventListener("click", function() {
+    //     question2();
+    //     return;
+    // })
+    // li2.addEventListener("click", function() {
+    //     timeLeft = timeLeft -15;
+    //     question2();
+    //     return;
+    // })
+    // li3.addEventListener("click", function() {
+    //     timeLeft = timeLeft -15;
+    //     question2();
+    //     return;
+    // })
+    // li4.addEventListener("click", function() {
+    //     timeLeft = timeLeft -15;
+    //     question2();
+    //     return;
+    // })
+
     
-    // if score === 0 return to score page
+    if (timeLeft <= 0)
+    enterHighScore();
+
+  
+    
+
+
+    
 }
 function question2() {
-    /*
-    What is not a build in object?
-    array
-    boolean
-    function
-    null
-    */
+  
 
     h1El.textContent = "What is not a built in object?"
     li1.textContent = "array";
@@ -129,28 +164,56 @@ function question2() {
     listEl.appendChild(li3);
     listEl.appendChild(li4);
 
-    li1.addEventListener("click", function() {
-        timeLeft = timeLeft -15;
-    })
-    li2.addEventListener("click", function() {
-        timeLeft = timeLeft -15;
-    })
-    li3.addEventListener("click", function() {
-        timeLeft = timeLeft -15;
-    })
-    li4.addEventListener("click", function() {
-        timeLeft = timeLeft;
-    })
- 
-    containerEl.addEventListener("click", function(){
+    listEl.addEventListener("click", function (event) {
+        var element = event.target;
+
+        if (element.matches(".li1")){
+            timeLeft = timeLeft - 15;
+        } else if (element.matches(".li2")){
+            timeLeft = timeLeft - 15;
+        }else if (element.matches(".li3")){
+            timeLeft = timeLeft - 15;
+        }else if (element.matches(".li4")){
+            return;
+        }
         question3();
     })
 
-    if (timeLeft === 0)
-    scorePage(); 
+
+
+    // li1.addEventListener("click", function() {
+    //     timeLeft = timeLeft-15;
+    //     question3();
+    //     return;
+    // })
+    // li2.addEventListener("click", function() {
+    //     timeLeft = timeLeft-15;
+    //     question3();
+    //     return;
+    // })
+    // li3.addEventListener("click", function() {
+    //     timeLeft = timeLeft-15;
+    //     question3();
+    //     return;
+    // })
+    // li4.addEventListener("click", function() {
+    //     timeLeft = timeLeft;
+    //     question3();
+    //     return;
+    // })
+ 
+
+
+    if (timeLeft <= 0)
+    enterHighScore();
     // if score === 0 return to score page
+
 }
 function question3() {
+    
+    containerEl.remove();
+    listEl.remove();
+
     h1El.textContent = "All of these are primitive types except?"
     li1.textContent = "Number";
     li2.textContent = "String";  
@@ -164,26 +227,46 @@ function question3() {
     listEl.appendChild(li3);
     listEl.appendChild(li4);
 
-    li1.addEventListener("click", function() {
-        timeLeft = timeLeft -15;
-    })
-    li2.addEventListener("click", function() {
-        timeLeft = timeLeft -15;
-    })
-    li3.addEventListener("click", function() {
-        timeLeft = timeLeft -15;
-    })
-    li4.addEventListener("click", function() {
-        timeLeft = timeLeft;
-    })
- 
-    containerEl.addEventListener("click", function(){
+    listEl.addEventListener("click", function (event) {
+        var element = event.target;
+
+        if (element.matches(".li1")){
+            timeLeft = timeLeft - 15;
+        } else if (element.matches(".li2")){
+            timeLeft = timeLeft - 15;
+        }else if (element.matches(".li3")){
+            timeLeft = timeLeft - 15;
+        }else if (element.matches(".li4")){
+            return;
+        }
         question4();
     })
 
-    if (timeLeft === 0)
-        scorePage();
-    // if score === 0 return to score page
+    // li1.addEventListener("click", function() {
+    //     timeLeft = timeLeft-15;
+    //     question4();
+    //     return;
+    // })
+    // li2.addEventListener("click", function() {
+    //     timeLeft = timeLeft-15;
+    //     question4();
+    //     return;
+    // })
+    // li3.addEventListener("click", function() {
+    //     timeLeft = timeLeft-15;
+    //     question4();
+    //     return;
+    // })
+    // li4.addEventListener("click", function() {
+    //     timeLeft = timeLeft;
+    //     question4();
+    //     return;
+    // })
+
+    if (timeLeft <= 0)
+    enterHighScore();
+    
+
 }
 function question4() {
     h1El.textContent = "What Math Object Method returns an absolute value?"
@@ -199,25 +282,47 @@ function question4() {
     listEl.appendChild(li3);
     listEl.appendChild(li4);
 
-    li1.addEventListener("click", function() {
-        timeLeft = timeLeft -15;
-    })
-    li2.addEventListener("click", function() {
-        timeLeft = timeLeft;
-    })
-    li3.addEventListener("click", function() {
-        timeLeft = timeLeft -15;
-    })
-    li4.addEventListener("click", function() {
-        timeLeft = timeLeft -15;
-    })
- 
-    containerEl.addEventListener("click", function(){
+    listEl.addEventListener("click", function (event) {
+        var element = event.target;
+
+        if (element.matches(".li1")){
+            timeLeft = timeLeft - 15;
+        } else if (element.matches(".li2")){
+            return;
+        }else if (element.matches(".li3")){
+            timeLeft = timeLeft - 15;
+        }else if (element.matches(".li4")){
+            timeLeft = timeLeft - 15;
+        }
         question5();
     })
 
-    if (timeLeft === 0)
-        scorePage();
+
+    // li1.addEventListener("click", function() {
+    //     timeLeft = timeLeft -15;
+    //     question5();
+    //     return;
+    // })
+    // li2.addEventListener("click", function() {
+    //     timeLeft = timeLeft;
+    //     question5();
+    //     return;
+    // })
+    // li3.addEventListener("click", function() {
+    //     timeLeft = timeLeft -15;
+    //     question5();
+    //     return;
+    // })
+    // li4.addEventListener("click", function() {
+    //     timeLeft = timeLeft -15;
+    //     question5();
+    //     return;
+    // })
+ 
+    if (timeLeft <= 0)
+    enterHighScore();
+
+ 
     // if score === 0 return to score page
 }
 function question5() {
@@ -234,27 +339,41 @@ function question5() {
     listEl.appendChild(li3);
     listEl.appendChild(li4);
 
-    li1.addEventListener("click", function() {
-        timeLeft = timeLeft;
-    })
-    li2.addEventListener("click", function() {
-        timeLeft = timeLeft -15;
-    })
-    li3.addEventListener("click", function() {
-        timeLeft = timeLeft -15;
-    })
-    li4.addEventListener("click", function() {
-        timeLeft = timeLeft -15;
+    listEl.addEventListener("click", function (event) {
+        var element = event.target;
+
+        if (element.matches(".li1")){
+            timeLeft = timeLeft - 15;
+        } else if (element.matches(".li2")){
+            return;
+        }else if (element.matches(".li3")){
+            timeLeft = timeLeft - 15;
+        }else if (element.matches(".li4")){
+            timeLeft = timeLeft - 15;
+        }
+        
     })
 
-    if (timeLeft === 0)
-        scorePage();
- 
-        // return to high score page
-    containerEl.addEventListener("click", function(){
-    })
+    // li1.addEventListener("click", function() {
+    //     timeLeft = timeLeft;
+    //     enterHighScore();
+    // })
+    // li2.addEventListener("click", function() {
+    //     timeLeft = timeLeft -15;
+    //     enterHighScore();
+    // })
+    // li3.addEventListener("click", function() {
+    //     timeLeft = timeLeft -15;
+    //     enterHighScore();
+    // })
+    // li4.addEventListener("click", function() {
+    //     timeLeft = timeLeft -15;
+    //     enterHighScore();
+    // })
 
-    
+    if (timeLeft <= 0)
+    enterHighScore();
+
 }
 
 
