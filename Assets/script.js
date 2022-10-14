@@ -11,10 +11,51 @@ var initials = document.querySelector(".inputInitials")
 var scores = document.querySelector("#score")
 var timer = document.querySelector("#time")
 var timeLeft = 75;
-var answer = 0;
+var i = 0;
+var questionsArray = [
+    {
+    question: "What is a valid variable declaration?",
+    answer1: "var",
+    answer2: "variable",
+    answer3: "item",
+    answer4: "vars",
+    answer: "var"
+    },
+    {
+    question: "What is not a built in object?",
+    answer1: "array",
+    answer2: "boolean",
+    answer3: "function",
+    answer4: "null",
+    answer: "null"
+    },
+    {
+    question: "All of these are primitive types except?",
+    answer1: "Number",
+    answer2: "String",
+    answer3: "Null",
+    answer4: "Function",
+    answer: "Function"
+    },
+    {
+    question: "What Math Object Method returns an absolute value?",
+    answer1: "ceil(x)",
+    answer2: "abs(x)",
+    answer3: "exp(x)",
+    answer4: "round(x)",
+    answer: "abs(x)"
+    },
+    {
+    question: "Which is the strict equality operator?",
+    answer1: "===",
+    answer2: "!==",
+    answer3: "=",
+    answer4: "==",
+    answer: "==="
+    }
+];
 
 
-startPage();
 
 function startPage() {
     h1El.textContent = "Welcome to the JavaScript quiz. Test your knowledge!"
@@ -28,14 +69,15 @@ function startPage() {
     buttonEl.addEventListener("click", function(event) {
         buttonEl.remove();
         countdown();
-        question1();
-     
+        startQuiz();
     })
 
     scores.addEventListener("click", function(event){
         scorePage();
     })
 } 
+
+
 
 
 // set attributes 
@@ -77,131 +119,126 @@ function scorePage(){
  
 }
 
-function enterHighScore(){
-    listEl.remove();
-    console.log('timeLeft :>> ', timeLeft);
-    if (timeLeft < 0)
-    timeLeft = 0;
-    h1El.textContent = "Your score is " + timeLeft + "."
 
-    h1El.appendChild(initials);
+
+function startQuiz() {
+
+    h1El.textContent = questionsArray[i].question;
+    li1.textContent = questionsArray[i].answer1;
+    li2.textContent = questionsArray[i].answer2;  
+    li3.textContent = questionsArray[i].answer3;   
+    li4.textContent = questionsArray[i].answer4;
+    
+    body.appendChild(containerEl);
+    containerEl.appendChild(listEl);
+    listEl.appendChild(li1);
+    listEl.appendChild(li2);
+    listEl.appendChild(li3);
+    listEl.appendChild(li4)
+    
+    containerEl.addEventListener("click", function(event) {
+                console.log('event :>> ', event)
+                if (event.srcElement.innerHTML !== questionsArray[i].answer){
+                    timeLeft = timeLeft - 15;
+                }
+
+                if (i< questionsArray.length -1){
+                    i++;
+                startQuiz();
+                }
+            })
+    
 }
 
+/*
 function question1() {
-
+    
     h1El.textContent = "What is a valid variable declaration?"
     li1.textContent = "var";
     li2.textContent = "variable";  
     li3.textContent = "item";   
     li4.textContent = "vars";
-
+    
     body.appendChild(containerEl);
     containerEl.appendChild(listEl);
     listEl.appendChild(li1);
     listEl.appendChild(li2);
     listEl.appendChild(li3);
     listEl.appendChild(li4);
-
-    listEl.addEventListener("click", function (event) {
+    
+    listEl.addEventListener("click", function(event){
         var element = event.target;
+        if (element.matches("li.li1")){
+            question2();
+        } else if (element.matches("li.li2")){
+            timeLeft = timeLeft - 15;
+            question2();
+        }else if (element.matches("li.li3")){
+            timeLeft = timeLeft - 15;
+            question2();
+        }else if (element.matches("li.li4")){
+            timeLeft = timeLeft - 15;
+            question2();
 
-        if (element.matches("li1")){
-            return;
-        } else if (element.matches(".li2")){
-            timeLeft = timeLeft - 15;
-        }else if (element.matches(".li3")){
-            timeLeft = timeLeft - 15;
-        }else if (element.matches(".li4")){
-            timeLeft = timeLeft - 15;
         }
-        question2();
+
+        
     })
-
-
-    // li1.addEventListener("click", function() {
-    //     question2();
-    //     return;
-    // })
-    // li2.addEventListener("click", function() {
-    //     timeLeft = timeLeft -15;
-    //     question2();
-    //     return;
-    // })
-    // li3.addEventListener("click", function() {
-    //     timeLeft = timeLeft -15;
-    //     question2();
-    //     return;
-    // })
-    // li4.addEventListener("click", function() {
-    //     timeLeft = timeLeft -15;
-    //     question2();
-    //     return;
-    // })
-
     
-    if (timeLeft <= 0)
-    enterHighScore();
-
-  
     
-
-
     
-}
+    listEl.removeEventListener("click", function(event){
+})
+
+}         
 function question2() {
-  
-
+    
     h1El.textContent = "What is not a built in object?"
     li1.textContent = "array";
     li2.textContent = "boolean";  
     li3.textContent = "function";   
     li4.textContent = "null";
-
+    
     body.appendChild(containerEl);
     containerEl.appendChild(listEl);
     listEl.appendChild(li1);
     listEl.appendChild(li2);
     listEl.appendChild(li3);
     listEl.appendChild(li4);
-
+    
     listEl.addEventListener("click", function (event) {
         var element = event.target;
-
-        if (element.matches(".li1")){
-            timeLeft = timeLeft - 15;
-        } else if (element.matches(".li2")){
-            timeLeft = timeLeft - 15;
-        }else if (element.matches(".li3")){
-            timeLeft = timeLeft - 15;
-        }else if (element.matches(".li4")){
+        
+        
+        li1.addEventListener("click", function() {
+            timeLeft = timeLeft-15;
             return;
-        }
-        question3();
+        })
+        li2.addEventListener("click", function() {
+            timeLeft = timeLeft-15;
+            return;
+        })
+        
+        li3.addEventListener("click", function() {
+            timeLeft = timeLeft-15;
+            return;
+        })
+        li4.addEventListener("click", function() {
+            timeLeft = timeLeft;
+            return;
+        })
+
+            if (element.matches(".li1")){
+                timeLeft = timeLeft - 15;
+            } else if (element.matches(".li2")){
+                timeLeft = timeLeft - 15;
+            }else if (element.matches(".li3")){
+                timeLeft = timeLeft - 15;
+            }else if (element.matches(".li4")){
+                return;
+            }
+    
     })
-
-
-
-    // li1.addEventListener("click", function() {
-    //     timeLeft = timeLeft-15;
-    //     question3();
-    //     return;
-    // })
-    // li2.addEventListener("click", function() {
-    //     timeLeft = timeLeft-15;
-    //     question3();
-    //     return;
-    // })
-    // li3.addEventListener("click", function() {
-    //     timeLeft = timeLeft-15;
-    //     question3();
-    //     return;
-    // })
-    // li4.addEventListener("click", function() {
-    //     timeLeft = timeLeft;
-    //     question3();
-    //     return;
-    // })
- 
 
 
     if (timeLeft <= 0)
@@ -374,6 +411,18 @@ function question5() {
     if (timeLeft <= 0)
     enterHighScore();
 
+        enterHighScore();
+}
+*/
+
+function enterHighScore(){
+    listEl.remove();
+    console.log('timeLeft :>> ', timeLeft);
+    if (timeLeft < 0)
+    timeLeft = 0;
+    h1El.textContent = "Your score is " + timeLeft + "."
+
+    h1El.appendChild(initials);
 }
 
-
+startPage();
